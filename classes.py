@@ -11,15 +11,10 @@ class Wall:
         self.player_occupying = player_occupying
 
     def equals(self, wall):
-      if self.square1.x_coordinates == wall.square1.x_coordinates:
-        if self.square1.y_coordinates == wall.square1.y_coordinates:
-          if self.square2.x_coordinates == wall.square2.x_coordinates :
-            if self.square2.y_coordinates == wall.square2.y_coordinates:
-              return True
-      else:
-        if self.square2.x_coordinates == wall.square1.x_coordinates:
-          if self.square2.y_coordinates == wall.square1.y_coordinates:
-            if self.square1.x_coordinates == wall.square2.x_coordinates :
-              if self.square1.y_coordinates == wall.square2.y_coordinates:
-                return True
-      return False
+        if self.square1.x_coordinates == wall.square1.x_coordinates and self.square1.y_coordinates == wall.square1.y_coordinates and \
+        self.square2.x_coordinates == wall.square2.x_coordinates and self.square2.y_coordinates == wall.square2.y_coordinates:
+            return True
+        if self.square2.x_coordinates == wall.square1.x_coordinates and self.square2.y_coordinates == wall.square1.y_coordinates and \
+        self.square1.x_coordinates == wall.square2.x_coordinates and self.square1.y_coordinates == wall.square2.y_coordinates:
+            return True
+        return False
