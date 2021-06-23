@@ -11,3 +11,5 @@ To counteract first-move advantage, the pie rule is suggested. After the first p
 After placing a peg, you may link one or more pairs of pegs on the board which are all your own colour. The links can only go between two pegs a knight's move away from each other, and cannot cross another link; they block other links, most importantly the opponent's. As part of your move, you may remove your own links (but not your opponent's) in order to rearrange the sequence of links on the board. (Variant for pencil and paper play: you may cross your own links but not your opponent's. See below.)
 The object is to make a continuous chain of linked pegs connecting your border rows. If neither side can achieve this, the game is a draw.
 (Wikipedia)
+
+https://en.wikipedia.org/wiki/TwixT
