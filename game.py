@@ -1,5 +1,4 @@
 import classes
-import check_victory
 
 global_x = 1  # Going one back or forward is one square in the 24 24 table 
 global_y = 24 # Going one down or up is 24 squares in the 24 24 table
@@ -7,6 +6,39 @@ global_current_player = "J1"
 global_list_of_walls = []
 global_list_of_walls_p1 = []
 global_list_of_walls_p2 = []
+
+
+"""
+board : 
+[
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+]
+Each 0 corresponds to a element of the square class with the value 0
+(1 or 2 if a player played on it)
+"""
 
 def create_board():
     board = []
@@ -26,7 +58,7 @@ def print_board(board):
         print(printline)
 
 def tower_can_be_placed(board, x, y):
-    # TODO : check if the square is empty
+    # check if the square is empty
     if board[x][y].player_occupying == 0:
         return True
     else:
@@ -109,27 +141,14 @@ def test_wall_blocking_right_right_up(x, y):
     return True
 
 def test_wall_blocking_right_right_down(x, y):
-    print("bonsoir")
-    print(len(global_list_of_walls))
     for wall in global_list_of_walls:
-        print(wall.square1.x_coordinates)
-        print(wall.square1.y_coordinates)
-        print(wall.square2.x_coordinates)
-        print(wall.square2.y_coordinates)
-        print("--")
-        print(x)
-        print(y)
-        print(x)
-        print(y)
-        print("--------")
         if classes.Wall(classes.Square(x, y+2, 1), classes.Square(x+1, y, 1), 1).equals(wall):
             return False
         if classes.Wall(classes.Square(x-1, y+1, 1), classes.Square(x+1, y, 1), 1).equals(wall):
             return False
         if classes.Wall(classes.Square(x, y+2, 1), classes.Square(x+2, y+1, 1), 1).equals(wall):
-            print("élol")
             return False
-        if classes.Wall(classes.Square(x, y-1, 1), classes.Square(x+1, y+1, 1), 1).equals(wall):
+        if classes.Wall(classes.Square(x-1, y, 1), classes.Square(x+1, y+1, 1), 1).equals(wall):
             return False
         if classes.Wall(classes.Square(x+1, y+1, 1), classes.Square(x-1, y+2, 1), 1).equals(wall):
             return False
@@ -150,29 +169,29 @@ def place_Wall(board, x, y):
     # X\X    X/X      ¯\_       _/¯
     # X O    O X     X X O     O X X
     list_of_walls_created = []
-    if x >= 2 and y <= 23:
+    if x >= 2 and y <= 22:
         if board[x][y].player_occupying == board[x-2][y+1].player_occupying:
             if test_wall_blocking_right_up_up(x, y):
                 list_of_walls_created.append(board[x-2][y+1])
                 global_list_of_walls.append(classes.Wall(board[x-2][y+1], board[x][y], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x-2) + "," + str(y+1) + " --- " + str(x) + "," + str(y))
+              #  print("Wall placed at : " + str(x-2) + "," + str(y+1) + " --- " + str(x) + "," + str(y))
                 if board[x][y].player_occupying == 1:
                     global_list_of_walls_p1.append(classes.Wall(board[x-2][y+1], board[x][y], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x-2][y+1], board[x][y], board[x][y].player_occupying))
  
-    if x <= 22 and y >= 1:
+    if x <= 21 and y >= 1:
         if board[x][y].player_occupying == board[x+2][y-1].player_occupying:
             if test_wall_blocking_right_up_up(x+2, y-1):
                 list_of_walls_created.append(board[x+2][y-1])
                 global_list_of_walls.append(classes.Wall(board[x+2][y-1], board[x][y], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x+2) + "," + str(y-1) + " --- " + str(x) + "," + str(y))
+               # print("Wall placed at : " + str(x+2) + "," + str(y-1) + " --- " + str(x) + "," + str(y))
                 if board[x][y].player_occupying == 1:
                     global_list_of_walls_p1.append(classes.Wall(board[x+2][y-1], board[x][y], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x+2][y-1], board[x][y], board[x][y].player_occupying))
                 
-    if x <= 22 and y <= 23:
+    if x <= 21 and y <= 22:
         if board[x][y].player_occupying == board[x+2][y+1].player_occupying:
             if test_wall_blocking_right_down_down(x, y):
                 global_list_of_walls.append(classes.Wall(board[x][y], board[x+2][y+1], board[x][y].player_occupying))
@@ -181,7 +200,7 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x][y], board[x+2][y+1], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x][y], board[x+2][y+1], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+2) + "," + str(y+1))
+                #print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+2) + "," + str(y+1))
 
     if x >= 2 and y >= 1:
         if board[x][y].player_occupying == board[x-2][y-1].player_occupying:
@@ -192,9 +211,9 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x-2][y-1], board[x][y], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x-2][y-1], board[x][y], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x-2) + "," + str(y-1) + " --- " + str(x) + "," + str(y))
+                #print("Wall placed at : " + str(x-2) + "," + str(y-1) + " --- " + str(x) + "," + str(y))
 
-    if x <= 23 and y <= 22:
+    if x <= 22 and y <= 21:
         if board[x][y].player_occupying == board[x+1][y+2].player_occupying:
             if test_wall_blocking_right_right_down(x, y):
                 list_of_walls_created.append(board[x+1][y+2])
@@ -203,7 +222,7 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x][y], board[x+1][y+2], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x][y], board[x+1][y+2], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+1) + "," + str(y+2))
+                #print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+1) + "," + str(y+2))
 
     if x >= 1 and y >= 2:
         if board[x][y].player_occupying == board[x-1][y-2].player_occupying:
@@ -214,10 +233,10 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x-1][y-2], board[x][y], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x-1][y-2], board[x][y], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x-1) + "," + str(y-2) + " --- " + str(x) + "," + str(y))
+#                print("Wall placed at : " + str(x-1) + "," + str(y-2) + " --- " + str(x) + "," + str(y))
 
 
-    if x <= 23 and y >= 2:
+    if x <= 22 and y >= 2:
         if board[x][y].player_occupying == board[x+1][y-2].player_occupying:
             if test_wall_blocking_right_right_up(x+1, y-2):
                 global_list_of_walls.append(classes.Wall(board[x][y], board[x+1][y-2], board[x][y].player_occupying))
@@ -226,9 +245,9 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x][y], board[x+1][y-2], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x][y], board[x+1][y-2], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+1) + "," + str(y-2))
+           #     print("Wall placed at : " + str(x) + "," + str(y) + " --- " + str(x+1) + "," + str(y-2))
 
-    if x >= 1 and y <= 22:
+    if x >= 1 and y <= 21:
         if board[x][y].player_occupying == board[x-1][y+2].player_occupying:
             if test_wall_blocking_right_right_up(x, y):
                 global_list_of_walls.append(classes.Wall(board[x-1][y+2], board[x][y], board[x][y].player_occupying))
@@ -237,7 +256,7 @@ def place_Wall(board, x, y):
                     global_list_of_walls_p1.append(classes.Wall(board[x-1][y+2], board[x][y], board[x][y].player_occupying))
                 else:
                     global_list_of_walls_p2.append(classes.Wall(board[x-1][y+2], board[x][y], board[x][y].player_occupying))
-                print("Wall placed at : " + str(x-1) + "," + str(y+2) + " --- " + str(x) + "," + str(y))
+               # print("Wall placed at : " + str(x-1) + "," + str(y+2) + " --- " + str(x) + "," + str(y))
 
     return list_of_walls_created
 
@@ -246,80 +265,8 @@ def switch_player():
     global global_current_player
     if global_current_player == "J1":
         global_current_player = "J2"
-        print("It is your turn, " + global_current_player)
+       # print("It is your turn, " + global_current_player)
 
     else:
         global_current_player = "J1"
-        print("It is your turn, " + global_current_player)
-
-def lejeu():
-    board = create_board()
-    game_continues = True
-    while(game_continues):
-
-        # PLAYER 1 TURN
-
-        for x in range(len(global_list_of_walls)):
-            print(str(global_list_of_walls[x].square1.x_coordinates) + "," + str(global_list_of_walls[x].square1.y_coordinates) + " --- " + str(global_list_of_walls[x].square2.x_coordinates) + "," + str(global_list_of_walls[x].square2.y_coordinates) + " : " + str(global_list_of_walls[x].player_occupying))
-        print_board(board)
-        print("It is your turn, " + global_current_player)
-
-        tower_not_placed = True
-        while(tower_not_placed):
-            print("Insert the x point of the tower you want to place")
-            while True:
-                x = input()
-                try:
-                    x = int(x)
-                    break
-                except ValueError:
-                    print("This is not a number. Please enter a valid number\n")
-            
-            print("Insert the y point of the tower you want to place")
-            while True:
-                y = input()
-                try:
-                    y = int(y)
-                    break
-                except ValueError:
-                    print("This is not a number. Please enter a valid number")
-
-            if place_tower(board, x, y):
-                tower_not_placed = False
-
-        place_Wall(board, x, y)
-        if check_victory.game_is_won_p1(global_list_of_walls_p1):
-            break
-        switch_player()
-
-
-        # PLAYER 2 TURN
-
-        print_board(board)
-        print("It is your turn, " + global_current_player)
-        
-        tower_not_placed = True
-        while(tower_not_placed):
-            print("Insert the x point of the tower you want to place")
-            while True:
-                x = input()
-                try:
-                    x = int(x)
-                    break
-                except ValueError:
-                    print("This is not a number. Please enter a valid number\n")
-            
-            print("Insert the y point of the tower you want to place")
-            while True:
-                y = input()
-                try:
-                    y = int(y)
-                    break
-                except ValueError:
-                    print("This is not a number. Please enter a valid number")
-
-            if place_tower(board, x, y):
-                tower_not_placed = False
-        place_Wall(board, x, y)
-        check_victory.game_is_won_p2(global_list_of_walls_p2)
-        switch_player()
+      #  print("It is your turn, " + global_current_player)
