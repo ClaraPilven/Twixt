@@ -165,8 +165,8 @@ def test_wall_blocking_right_right_down(x, y):
 def place_Wall(board, x, y):
     # We place a wall if the towers are the same color, and after testing that other walls aren't making the placement impossible, add it to the list of walls
     # There are 8 squares to test, and 4 different wall positions :
-    # O X    X O     O X X     X X O      
-    # X\X    X/X      ¯\_       _/¯
+    # O X    X O     O X X     X X O     
+    # X\X    X/X      -\_       _/-
     # X O    O X     X X O     O X X
     list_of_walls_created = []
     if x >= 2 and y <= 22:
